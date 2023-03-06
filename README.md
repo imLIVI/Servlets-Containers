@@ -37,3 +37,24 @@ How should ```save``` work:
 ### Were used
 * <a href="https://tomcat.apache.org/">Tomcat</a>
 * <a href="https://www.jetbrains.com/ru-ru/idea/download/#section=windows">IntelliJ IDEA Ultimate</a>
+
+## DI
+### Description
+
+Replace the code in the ```init``` method with DI with Spring using bean configuration methods:
+* ```Annotation Config``` — ```feature/di-annotation``` branch.
+* ```Java Config``` — ```feature/di-java``` branch.
+
+<a href="https://github.com/netology-code/jspr-homeworks/tree/master/05_di">(RUS version of description)</a>
+
+### Results
+#### Annotation Config
+
+![auto1](https://user-images.githubusercontent.com/63547457/223255405-569bbbe0-53de-47b2-9abb-34cda5c0feaf.png)
+
+![auto](https://user-images.githubusercontent.com/63547457/223255509-86fc418b-1a80-4154-a9d1-a1a41e520e44.png)
+
+#### Java Config
+
+![java](https://user-images.githubusercontent.com/63547457/223255177-9dd122eb-830d-4966-b555-5296c9f2000c.png)
+
