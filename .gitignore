@@ -5,3 +5,5 @@
 */*.iml
 */api/target
 /target
+
+*.docx
