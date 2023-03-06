@@ -33,3 +33,7 @@ How should ```save``` work:
 4. Sent GET request again:
 
 ![get2](https://user-images.githubusercontent.com/63547457/223095679-3e99e450-7b77-4887-ae22-6f81efe36554.png)
+
+### Were used
+* <a href="https://tomcat.apache.org/">Tomcat</a>
+* <a href="https://www.jetbrains.com/ru-ru/idea/download/#section=windows">IntelliJ IDEA Ultimate</a>
