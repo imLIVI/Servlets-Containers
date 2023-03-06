@@ -16,7 +16,7 @@ public class MainServlet extends HttpServlet {
     private PostController controller;
     private ConcurrentHashMap<String, Map<String, Handler>> handlers;
     private static final String PATH = "/api/posts";
-    private static final String PATH_WITH_PARAMS = "/api/posts/\\d+";
+    private static final String PATH_WITH_ID = "/api/posts/";
 
     @Override
     public void init() {
@@ -36,18 +36,18 @@ public class MainServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK);
         });
 
-        addHandler("GET", PATH_WITH_PARAMS, (req, resp, path) -> {
+        addHandler("GET", PATH_WITH_ID, (req, resp, path) -> {
             try {
-                final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+                final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
                 controller.getById(id, resp);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } catch (NotFoundException e) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
         });
-        addHandler("DELETE", PATH_WITH_PARAMS, (req, resp, path) -> {
+        addHandler("DELETE", PATH_WITH_ID, (req, resp, path) -> {
             try {
-                final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+                final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
                 controller.removeById(id, resp);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } catch (NotFoundException e) {
@@ -63,9 +63,12 @@ public class MainServlet extends HttpServlet {
             final var path = req.getRequestURI();
             final var method = req.getMethod();
 
-            var handler = handlers.get(method).get(path);
-            handler.handle(req, resp, path);
+            String pathForHandler = path;
+            if (path.startsWith(PATH_WITH_ID) && path.matches(PATH_WITH_ID + "\\d+"))
+                pathForHandler = PATH_WITH_ID;
 
+            Handler handler = handlers.get(method).get(pathForHandler);
+            handler.handle(req, resp, path);
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -74,7 +77,7 @@ public class MainServlet extends HttpServlet {
 
     public void addHandler(String method, String path, Handler handler) {
         if (!handlers.containsKey(method)) {
-            handlers.put(method, new HashMap<>());
+            handlers.put(method, new ConcurrentHashMap<>());
         }
         handlers.get(method).put(path, handler);
     }
